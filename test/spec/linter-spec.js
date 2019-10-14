@@ -502,6 +502,13 @@ describe('linter', function() {
       });
     });
 
+    it ('should parse scoped', function() {
+      const parsed = linter.parseRuleName('@scoped/bpmnlint-plugin-foo/label-required');
+      expect(parsed).to.eql({
+        pkg: '@scoped/bpmnlint-plugin-foo',
+        ruleName: 'label-required'
+      });
+    });
   });
 
 

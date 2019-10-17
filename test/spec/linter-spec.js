@@ -360,6 +360,16 @@ describe('linter', function() {
               }
             }
 
+            if (pkg === '@ns/bpmnlint-plugin-test2') {
+              if (configName === 'recommended') {
+                return {
+                  rules: {
+                    'bar': 'off',
+                  }
+                };
+              }
+            }
+
             throw new Error(`unexpected config <${configName}>`);
           }
 
@@ -399,12 +409,13 @@ describe('linter', function() {
           const config = {
             extends: [
               'bpmnlint:recommended',
-              'plugin:test/recommended'
+              'plugin:test/recommended',
+              'plugin:@ns/bpmnlint-plugin-test2/recommended'
             ],
             rules: {
               'bpmnlint/foo': 'error',
               'foo': 'error',
-              'test/bar': 'off'
+              'test/bar': 'off',
             }
           };
 
@@ -413,10 +424,12 @@ describe('linter', function() {
 
           // then
           expect(rules).to.eql({
+            '@ns/bpmnlint-plugin-test2/bar': 'off',
             'bar': 'error',
             'foo': 'error',
             'test/bar': 'off',
-            'test/other': 'warn'
+            'test/other': 'warn',
+
           });
         });
 
@@ -578,6 +591,10 @@ describe('linter', function() {
 
     });
 
+
+    it('should throw error on invalid scoped plugin', function() {
+      expect(() => linter.parseConfigName('plugin:@ns/not-valid')).to.throw('invalid config name <plugin:@ns/not-valid>');
+    });
   });
 
 

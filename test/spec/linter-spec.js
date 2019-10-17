@@ -563,7 +563,6 @@ describe('linter', function() {
 
     it('should parse scoped', function() {
       const parsed = linter.parseConfigName('plugin:@ns/bpmnlint-plugin-foo/bar');
-      console.log({ parsed });
       expect(parsed).to.eql({
         pkg: '@ns/bpmnlint-plugin-foo',
         configName: 'bar'

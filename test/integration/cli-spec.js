@@ -214,8 +214,8 @@ describe('cli', function() {
           stdout: `
 
             ${diagramPath('ns/diagram-invalid.bpmn')}
-              StartEvent  error  Element has non-sense label <xxx>  test2/no-label-xxx
               StartEvent  error  Element has non-sense label <xxx>  @ns/bpmnlint-plugin-test/no-label-xxx
+              StartEvent  error  Element has non-sense label <xxx>  test2/no-label-xxx
 
             ✖ 2 problems (2 errors, 0 warnings)
           `

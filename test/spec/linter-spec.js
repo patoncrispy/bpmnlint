@@ -415,7 +415,7 @@ describe('linter', function() {
             rules: {
               'bpmnlint/foo': 'error',
               'foo': 'error',
-              'test/bar': 'off',
+              'test/bar': 'off'
             }
           };
 
@@ -428,8 +428,7 @@ describe('linter', function() {
             'bar': 'error',
             'foo': 'error',
             'test/bar': 'off',
-            'test/other': 'warn',
-
+            'test/other': 'warn'
           });
         });
 

@@ -592,7 +592,7 @@ describe('linter', function() {
 
 
     it('should throw error on invalid scoped plugin', function() {
-      expect(() => linter.parseConfigName('plugin:@ns/not-valid')).to.throw('invalid config name <plugin:@ns/not-valid>');
+      expect(() => linter.parseConfigName('plugin:@ns/not-valid')).to.throw('invalid package name <plugin:@ns/not-valid>. Must pass regex /(?:@[a-z0-9-~][a-z0-9-._~]*\\/)?bpmnlint-plugin-[a-z0-9-._~]+/gm');
     });
   });
 

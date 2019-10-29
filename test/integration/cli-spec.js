@@ -158,6 +158,73 @@ describe('cli', function() {
 
   });
 
+
+  describe('should handle namespaced packages', function() {
+
+    before(function() {
+
+      this.timeout(30000);
+
+      return exec('install-local', [], __dirname + '/cli/ns');
+    });
+
+
+    describe('providing rules', function() {
+
+      test({
+        cmd: [ 'bpmnlint', '-c', 'uses-rules.json', 'diagram.bpmn' ],
+        cwd: __dirname + '/cli/ns',
+      });
+
+
+      test({
+        cmd: [ 'bpmnlint', '-c', 'uses-rules.json', 'diagram-invalid.bpmn' ],
+        cwd: __dirname + '/cli/ns',
+        expect: {
+          code: 1,
+          stderr: EMPTY,
+          stdout: `
+
+            ${diagramPath('ns/diagram-invalid.bpmn')}
+              StartEvent  error  Element has non-sense label <xxx>  test2/no-label-xxx
+              StartEvent  error  Element has non-sense label <xxx>  @ns/test/no-label-xxx
+
+            ✖ 2 problems (2 errors, 0 warnings)
+          `
+        }
+      });
+
+    });
+
+
+    describe('providing configuration', function() {
+
+      test({
+        cmd: [ 'bpmnlint', '-c', 'extends.json', 'diagram.bpmn' ],
+        cwd: __dirname + '/cli/ns',
+      });
+
+
+      test({
+        cmd: [ 'bpmnlint', '-c', 'extends.json', 'diagram-invalid.bpmn' ],
+        cwd: __dirname + '/cli/ns',
+        expect: {
+          code: 1,
+          stderr: EMPTY,
+          stdout: `
+
+            ${diagramPath('ns/diagram-invalid.bpmn')}
+              StartEvent  error  Element has non-sense label <xxx>  @ns/test/no-label-xxx
+              StartEvent  error  Element has non-sense label <xxx>  test2/no-label-xxx
+
+            ✖ 2 problems (2 errors, 0 warnings)
+          `
+        }
+      });
+
+    });
+  });
+
 });
 
 
@@ -182,7 +249,7 @@ function test(options) {
 
   const expected = _expect || { code: 0 };
 
-  (only ? it.only : it)(cmd.join(' ') + (cwd ? `(cwd: ${cwd})` : ''), async function() {
+  (only ? it.only : it)(cmd.join(' ') + (cwd ? ` (cwd: ${cwd})` : ''), async function() {
 
     this.timeout(3000);
 
